@@ -4,8 +4,18 @@ module Gadabout
       def initialize
       end
 
-      def format_key(key)
-        return key.gsub(/_/, ' ').capitalize.join('')
+      def format_keys(map)
+        map.keys.each do |k|
+         if map[k].instance_of? Hash
+           map[k] = format_keys(map[k])
+         end
+
+         new_k = k.split('_').map{ |w| w.capitalize }.join('')
+         map[new_k] = map[k]
+         map.delete(k)
+       end
+
+       return map
       end
 
       def to_h
@@ -31,18 +41,18 @@ module Gadabout
               puts "detected hash!"
               val.each_pair do |k,v|
                 unless [String, Fixnum, Hash, Array, TrueClass, FalseClass].include? v.class
-                  val[format_key(k)] = v.to_h
-                else
-                  val[format_key(k)] = v
+                  val[k] = v.to_h
                 end
               end
             end
           end
 
-          map[format_key(var[1..-1])] = val
+          map[var[1..-1]] = val
         end
 
-        return map
+
+
+        return format_keys(map)
       end
     end
   end

@@ -17,7 +17,7 @@ module Gadabout
 
         yield self
 
-        puts self.to_h.to_json
+        puts JSON.pretty_generate(self.to_h)
       end
 
       def task_group
