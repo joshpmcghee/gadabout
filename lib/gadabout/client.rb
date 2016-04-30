@@ -14,246 +14,209 @@ module Gadabout
 
     #GET /v1/jobs
     def jobs(opts={})
-      # Validate options
-      supported_opts = ["prefix"]
-      raise "Invalid options. Supported: #{supported_opts}" unless opts.keys.reject{ |k| supported_opts.include? k }.empty?
-
+      valid_opts?(opts,["prefix"])
       path = "/jobs"
-
-      begin
-        resp = @rest[path].get(:params => opts)
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return get(path, opts)
     end
 
     #GET /v1/job
     def job(id)
       path = File.join("/job", id)
-
-      begin
-        resp = @rest[path].get
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return get(path)
     end
 
     #GET /v1/job/<ID>/evaluations
     def job_evaluatons(id)
       path = File.join("/job", id, "/evaluations")
-
-      begin
-        resp = @rest[path].get
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return get(path)
     end
 
     #GET /v1/job/<ID>/allocations
     def job_allocations(id)
       path = File.join("/job", id, "/allocations")
-
-      begin
-        resp = @rest[path].get
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return get(path)
     end
 
     #PUT/POST /v1/job
     def force_job_evaluation(id)
       path = File.join("/job", id, "/evaluate")
-
-      begin
-        resp = @rest[path].put
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return put(path)
     end
 
     #PUT/POST /v1/job
     def force_periodic_job(id)
       path = File.join("/job", id, "/periodic/force")
-
-      begin
-        resp = @rest[path].put
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return put(path)
     end
 
     #PUT/POST /v1/job
     def register_job(spec)
       path = "/job"
-
-      begin
-        resp = @rest[path].put(spec)
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return put(path, nil, spec)
     end
 
     #PUT/POST /v1/job
     def update_job(id, spec)
       path = File.join("/job", id)
-
-      begin
-        resp = @rest[path].put(spec)
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return put(path, nil, spec)
     end
 
     #DELETE /v1/job
     def delete_job(id)
       path = File.join("/job", id)
-
-      begin
-        resp = @rest[path].delete
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return delete(path)
     end
 
     #GET /v1/nodes
     def nodes(opts={})
-      # Validate options
-      supported_opts = ["prefix"]
-      raise "Invalid options. Supported: #{supported_opts}" unless opts.keys.reject{ |k| supported_opts.include? k }.empty?
-
+      valid_opts?(opts,["prefix"])
       path = "/nodes"
-
-      begin
-        resp = @rest[path].get(:params => opts)
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return get(path, opts)
     end
 
     #GET /v1/node/<ID>
     def node(id)
       path = File.join("/node", id)
-
-      begin
-        resp = @rest[path].get
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return get(path)
     end
 
     #GET /v1/node/<ID>/allocations
     def node_allocations(id)
       path = File.join("job", id, "allocations")
-
-      begin
-        resp = @rest[path].get
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return get(path)
     end
 
     #PUT/POST /v1/node/<ID>/evaluate
     def create_evaluation(id)
       path = File.join("/node", id, "/evaluate")
-
-      begin
-        resp = @rest[path].put
-      rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
-      end
-
-      return JSON.parse(resp)
+      return put(path)
     end
 
     def drain(id, enable)
       path = File.join("/node", id, "/drain")
-      opts = {:enable => enable}
+      return put(path, {:enable => enable})
+    end
 
+    #GET /v1/allocations
+    def allocations(opts = {})
+      valid_opts?(opts, ['prefix'])
+      path = "/allocations"
+      return get(path, opts)
+    end
+
+    #GET /v1/allocation/<ID>
+    def allocation(id)
+      path = File.join("/allocation", id)
+      return get(path)
+    end
+
+    #GET /v1/evaluations
+    def evaluations(opts = {})
+      valid_opts?(opts, ['prefix'])
+      path = "/evaluations"
+      return get(path, opts)
+    end
+
+    #GET /v1/evaluation/<ID>
+    def evaluation(id)
+      path = File.join("/evaluation", id)
+      return get(path)
+    end
+
+    #GET /v1/evaluation/<ID>/allocations
+    def evaluation_allocations(id)
+      path = File.join("/evaluation", id, 'allocations')
+      return get(path)
+    end
+
+    #GET /v1/agent/self
+    def agent_info
+      path = "/agent/self"
+      return get(path)
+    end
+
+    #PUT/POST /v1/agent/join
+    def agent_join(addresses)
+      path = "/agent/join"
+      return put(path, {:address => addresses})
+    end
+
+    #GET /v1/agent/members
+    def members
+      path = "/agent/members"
+      return get(path)
+    end
+
+    #PUT/POST /v1/agent/force-leave
+    def force_leave(node)
+      path = "/agent/force-leave"
+      return put(path, {:node => node})
+    end
+
+    #GET /v1/agent/servers
+    def servers
+      path = "/agent/servers"
+      return get(path)
+    end
+
+    #PUT/POST /v1/agent/servers
+    def update_servers(addresses)
+      path = "/agent/servers"
+      return put(path, {:address => addresses})
+    end
+
+    #GET /v1/client/fs/ls
+    def client_ls(allocation, path)
+      path = File.join("/client/fs/ls", allocation)
+      return get(path, {:path => path})
+    end
+
+    #GET /v1/client/fs/cat
+    def client_cat(allocation, path)
+      path = File.join("/client/fs/cat", allocation)
+      return get(path, {:path => path})
+    end
+
+    #GET /v1/client/fs/stat
+    def client_stat(allocation, path)
+      path = File.join("/client/fs/cat", allocation)
+      return get(path, {:path => path})
+    end
+
+    private
+
+    def get(path, params = {})
       begin
-        resp = @rest[path].put(nil, :params => opts)
+        resp = @rest[path].get(:params => params)
       rescue StandardError => e
-        raise "Error whilst making HTTP request to the Nomad Agent: #{e}"
+        raise "Error whilst making HTTP GET request to the Nomad Agent at #{path}: #{e}"
       end
 
       return JSON.parse(resp)
     end
 
-    #GET /v1/allocations
-    def allocations
+    def put(path, params = {}, body = '')
+      begin
+        resp = @rest[path].put(body, :params => params)
+      rescue StandardError => e
+        raise "Error whilst making HTTP PUT request to the Nomad Agent at #{path}: #{e}"
+      end
+
+      return JSON.parse(resp)
     end
 
-    #GET /v1/allocation
-    def allocation
+    def delete(path, params = {})
+      begin
+        resp = @rest[path].delete(:params => params)
+      rescue StandardError => e
+        raise "Error whilst making HTTP DELETE request to the Nomad Agent at #{path}: #{e}"
+      end
+
+      return JSON.parse(resp)
     end
 
-    #GET /v1/evaluations
-    def evaluations
+    def valid_opts?(opts, valid)
+      raise "Invalid options. Supported: #{valid}" unless opts.keys.reject{ |k| valid.include? k }.empty?
     end
-
-    #GET /v1/evaluation
-    def evaluation
-    end
-
-    #GET /v1/agent/self
-    def agent_info
-    end
-
-    #PUT/POST /v1/agent/join
-    def agent_join
-    end
-
-    #GET /v1/agent/members
-    def members
-    end
-
-    #PUT/POST /v1/agent/force-leave
-    def force_leave
-    end
-
-    #GET /v1/agent/servers
-    def servers
-    end
-
-    #PUT/POST /v1/agent/servers
-    def update_servers
-    end
-
-    #GET /v1/client/fs/ls
-    def client_ls
-    end
-
-    #GET /v1/client/fs/cat
-    def client_cat
-    end
-
-    #GET /v1/client/fs/stat
-    def client_stat
-    end
-
-    private
   end
 end
