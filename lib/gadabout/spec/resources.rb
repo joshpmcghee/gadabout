@@ -1,6 +1,6 @@
 module Gadabout
-  module Specification
-    class LogRotation
+  module Spec
+    class Resources
       def initialize
       end
     end

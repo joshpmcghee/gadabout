@@ -1,5 +1,5 @@
 module Gadabout
-  module Specification
+  module Spec
     class Task
       def initialize
       end

@@ -1,6 +1,6 @@
 module Gadabout
-  module Specification
-    class Artifact
+  module Spec
+    class RestartPolicy
       def initialize
       end
     end

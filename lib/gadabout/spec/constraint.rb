@@ -1,6 +1,6 @@
 module Gadabout
-  module Specification
-    class Resources
+  module Spec
+    class Constraint
       def initialize
       end
     end
