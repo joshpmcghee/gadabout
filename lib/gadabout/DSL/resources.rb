@@ -1,6 +1,6 @@
 module Gadabout
-  module Spec
-    class Task
+  module DSL
+    class Resources
       def initialize
       end
     end

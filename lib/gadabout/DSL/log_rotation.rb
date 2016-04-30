@@ -1,6 +1,6 @@
 module Gadabout
-  module Spec
-    class Constraint
+  module DSL
+    class LogRotation
       def initialize
       end
     end

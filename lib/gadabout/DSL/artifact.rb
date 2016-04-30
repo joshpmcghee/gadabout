@@ -1,5 +1,5 @@
 module Gadabout
-  module Spec
+  module DSL
     class Artifact
       def initialize
       end
