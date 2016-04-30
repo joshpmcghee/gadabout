@@ -189,7 +189,7 @@ module Gadabout
       begin
         resp = @rest[path].get(:params => params)
       rescue StandardError => e
-        raise "Error whilst making HTTP GET request to the Nomad Agent at #{path}: #{e}"
+        raise "Error whilst making HTTP GET request to the Nomad Agent at #{path}: #{e.response}"
       end
 
       return JSON.parse(resp)
@@ -199,7 +199,7 @@ module Gadabout
       begin
         resp = @rest[path].put(body, :params => params)
       rescue StandardError => e
-        raise "Error whilst making HTTP PUT request to the Nomad Agent at #{path}: #{e}"
+        raise "Error whilst making HTTP PUT request to the Nomad Agent at #{path}: #{e.response}"
       end
 
       return JSON.parse(resp)
@@ -209,7 +209,7 @@ module Gadabout
       begin
         resp = @rest[path].delete(:params => params)
       rescue StandardError => e
-        raise "Error whilst making HTTP DELETE request to the Nomad Agent at #{path}: #{e}"
+        raise "Error whilst making HTTP DELETE request to the Nomad Agent at #{path}: #{e.response}"
       end
 
       return JSON.parse(resp)
