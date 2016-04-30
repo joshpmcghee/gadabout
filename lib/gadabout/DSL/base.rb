@@ -30,15 +30,12 @@ module Gadabout
           else
             # Check within Arrays and Hashes for other incomprehensibles
             if val.instance_of? Array
-              puts "detected array!"
-              puts val
               val.map! do |i|
                 unless [String, Fixnum, Hash, Array, TrueClass, FalseClass].include? i.class
                   i.to_h
                 end
               end
             elsif val.instance_of? Hash
-              puts "detected hash!"
               val.each_pair do |k,v|
                 unless [String, Fixnum, Hash, Array, TrueClass, FalseClass].include? v.class
                   val[k] = v.to_h

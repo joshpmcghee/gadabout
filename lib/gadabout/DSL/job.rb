@@ -17,7 +17,9 @@ module Gadabout
 
         yield self
 
-        puts JSON.pretty_generate(self.to_h)
+        spec = { Job: self.to_h }
+
+        puts JSON.pretty_generate(spec)
       end
 
       def task_group
