@@ -8,7 +8,6 @@ Gem::Specification.new do |s|
   s.version       = Gadabout::VERSION
   s.authors       = ["Josh McGhee"]
   s.email         = ["joshpmcghee@gmail.com"]
-  s.executables   << "gadabout"
   s.homepage      = "https://github.com//gadabout"
   s.summary       = "A swiss army knife gem for the Hashicorp Nomad job scheduler"
   s.description   = "A swiss army knife gem for the Hashicorp Nomad job scheduler"
