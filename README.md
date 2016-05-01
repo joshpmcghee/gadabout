@@ -1,5 +1,5 @@
 # Gadabout
-A swiss army knife gem for the Hashicorp Nomad job scheduler.
+A Swiss army knife gem for the Hashicorp Nomad job scheduler.
 
 ## Gadabout::Client
 A simple API client for Nomad.
