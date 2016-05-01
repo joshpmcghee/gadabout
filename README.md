@@ -1,4 +1,4 @@
-# Gadabout
+# Gadabout ![Build Status](https://travis-ci.org/joshpmcghee/gadabout.svg?branch=master)
 A Swiss army knife gem for the Hashicorp Nomad job scheduler.
 
 ## Gadabout::Client
