@@ -4,26 +4,16 @@ module Gadabout
       def initialize
       end
 
-      def format_keys(map)
-        map.keys.each do |k|
-         if map[k].instance_of? Hash
-           map[k] = format_keys(map[k])
-         end
-
-         new_k = k.split('_').map{ |w| w.capitalize }.join('')
-         map[new_k] = map[k]
-         map.delete(k)
-       end
-
-       return map
-      end
-
       def to_h
         map = {}
 
         self.instance_variables.each do |var|
           val = instance_variable_get(var)
+
           next if val.nil?
+          if val.instance_of? Array
+            next if val.empty?
+          end
 
           unless [String, Fixnum, Hash, Array, TrueClass, FalseClass].include? val.class
             val = val.to_h
@@ -33,6 +23,8 @@ module Gadabout
               val.map! do |i|
                 unless [String, Fixnum, Hash, Array, TrueClass, FalseClass].include? i.class
                   i.to_h
+                else
+                  i
                 end
               end
             elsif val.instance_of? Hash
@@ -44,12 +36,12 @@ module Gadabout
             end
           end
 
-          map[var[1..-1]] = val
+          # Convert keys from ruby instance_var to Hashicorp JSON-syntax key
+          hashivar = var[1..-1].to_s.split('_').map{ |w| w.capitalize }.join('')
+          map[hashivar] = val
         end
 
-
-
-        return format_keys(map)
+        return map
       end
     end
   end

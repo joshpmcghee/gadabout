@@ -1,6 +1,6 @@
 module Gadabout
   module DSL
-    class Resources
+    class Resources < Base
       def initialize
         @cpu = nil
         @disk_m_b = nil

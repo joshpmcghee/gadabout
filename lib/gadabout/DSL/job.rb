@@ -3,7 +3,7 @@ require 'json'
 module Gadabout
   module DSL
     class Job < Base
-      def initialize(&block)
+      def initialize
         @name = nil
         @task_groups = []
         @constraints = []
@@ -14,6 +14,7 @@ module Gadabout
         @region = "global"
         @type = "service"
         @update = nil
+        @datacenters = []
 
         yield self
 
@@ -58,11 +59,19 @@ module Gadabout
         @region = region
       end
 
+      def type(type)
+        @type = type
+      end
+
+      def priority(priority)
+        @priority = priority
+      end
+
       def all_at_once(all_at_once)
         @all_at_once = all_at_once
       end
 
-      def datacenters(datacenters)
+      def datacenters(*datacenters)
         @datacenters = datacenters
       end
     end

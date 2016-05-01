@@ -51,6 +51,10 @@ module Gadabout
         @meta[key] = value
       end
 
+      def env(key, value)
+        @env[key] = value
+      end
+
       def name(name)
         @name = name
       end

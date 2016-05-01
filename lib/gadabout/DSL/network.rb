@@ -15,7 +15,7 @@ module Gadabout
         @dynamic_ports << {label: label}
       end
 
-      def m_bits(m_bits)
+      def mbits(m_bits)
         @m_bits = m_bits
       end
     end
