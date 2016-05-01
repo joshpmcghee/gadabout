@@ -17,7 +17,7 @@ client.agent_info
 
 client.jobs
 
-client.drain("JOB_ID_HERE", true)
+client.drain("<ID>", true)
 ```
 
 ## Gadabout::DSL
