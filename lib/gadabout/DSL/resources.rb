@@ -9,10 +9,10 @@ module Gadabout
         @networks = []
       end
 
-      def network
+      def network(&block)
         n = Network.new
 
-        yield n
+        n.instance_eval &block
 
         @networks << n
       end

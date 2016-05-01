@@ -10,26 +10,26 @@ module Gadabout
         @tasks = []
       end
 
-      def task
+      def task(&block)
         t = Task.new
 
-        yield t
+        t.instance_eval &block
 
         @tasks << t
       end
 
-      def constraint
+      def constraint(&block)
         c = Constraint.new
 
-        yield c
+        c.instance_eval &block
 
         @constraints << c
       end
 
-      def restart_policy
+      def restart_policy(&block)
         rp = RestartPolicy.new
 
-        yield rp
+        rp.instance_eval &block
 
         @restart_policy = rp
       end

@@ -15,34 +15,34 @@ module Gadabout
         @user = nil
       end
 
-      def constraint
+      def constraint(&block)
         c = Constraint.new
 
-        yield c
+        c.instance_eval &block
 
         @constraints << c
       end
 
-      def artifact
+      def artifact(&block)
         a = Artifact.new
 
-        yield a
+        a.instance_eval &block
 
         @artifacts << a
       end
 
-      def log_config
+      def log_config(&block)
         lc = LogConfig.new
 
-        yield lc
+        lc.instance_eval &block
 
         @log_config = lc
       end
 
-      def resources
+      def resources(&block)
         r = Resources.new
 
-        yield r
+        r.instance_eval &block
 
         @resources = r
       end

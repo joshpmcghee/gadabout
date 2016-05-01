@@ -3,7 +3,7 @@ require 'json'
 module Gadabout
   module DSL
     class Job < Base
-      def initialize
+      def initialize(&block)
         @name = nil
         @task_groups = []
         @constraints = []
@@ -16,25 +16,25 @@ module Gadabout
         @update = nil
         @datacenters = []
 
-        yield self
+        instance_eval &block if block_given?
 
         spec = { Job: self.to_h }
 
         puts JSON.pretty_generate(spec)
       end
 
-      def task_group
+      def task_group(&block)
         tg = TaskGroup.new
 
-        yield tg
+        tg.instance_eval &block
 
         @task_groups << tg
       end
 
-      def constraint
+      def constraint(&block)
         c = Constraint.new
 
-        yield c
+        c.instance_eval &block
 
         @constraints << c
       end
@@ -42,7 +42,7 @@ module Gadabout
       def periodic
         p = Periodic.new
 
-        yield p
+        p.instance_eval &block
 
         @periodic = p
       end
