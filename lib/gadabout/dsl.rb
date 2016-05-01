@@ -17,3 +17,5 @@ module Gadabout
     end
   end
 end
+
+include Gadabout::DSL
