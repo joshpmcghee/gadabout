@@ -4,6 +4,18 @@ A Swiss army knife gem for the Hashicorp Nomad job scheduler.
 ## Gadabout::Client
 A simple API client for Nomad.
 
+```ruby
+require 'gadabout'
+
+client = Gadabout::Client.new
+
+client.agent_info
+
+client.jobs
+
+client.drain("JOB_ID_HERE", true)
+```
+
 ## Gadabout::DSL
 A DSL for defining Nomad Jobs that compiles to JSON.
 
