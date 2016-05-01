@@ -9,3 +9,11 @@ require 'gadabout/dsl/resources'
 require 'gadabout/dsl/artifact'
 require 'gadabout/dsl/network'
 require 'gadabout/dsl/periodic'
+
+module Gadabout
+  module DSL
+    def job(&block)
+      Gadabout::DSL::Job.new &block
+    end
+  end
+end
