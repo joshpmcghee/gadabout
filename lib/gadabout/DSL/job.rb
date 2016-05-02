@@ -9,6 +9,7 @@ module Gadabout
         @constraints = []
         @all_at_once = false
         @meta = {}
+        @id = nil
         @periodic = nil
         @priority = 50
         @region = "global"
@@ -61,6 +62,10 @@ module Gadabout
 
       def type(type)
         @type = type
+      end
+
+      def id(id)
+        @id = id
       end
 
       def priority(priority)
