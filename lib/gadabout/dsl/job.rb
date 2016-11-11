@@ -18,10 +18,6 @@ module Gadabout
         @datacenters = []
 
         instance_eval &block if block_given?
-
-        spec = { Job: self.to_h }
-
-        puts JSON.pretty_generate(spec)
       end
 
       def task_group(&block)

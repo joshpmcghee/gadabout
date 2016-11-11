@@ -12,10 +12,8 @@ require 'gadabout/dsl/periodic'
 
 module Gadabout
   module DSL
-    def job(&block)
+    def self.job(&block)
       Gadabout::DSL::Job.new &block
     end
   end
 end
-
-include Gadabout::DSL
